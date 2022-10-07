@@ -33,8 +33,6 @@ public class ScreenBase : MonoBehaviour
 
     protected virtual void CloseScreen()
     {
-        new NativeShare().Share();
-        return;
         screenAnimator.Play(closeAnim);
     }
     

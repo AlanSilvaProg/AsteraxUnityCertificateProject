@@ -48,7 +48,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     [SerializeField] private ScreenBase gameOverScreen;
     
 
-    private int _life = 0;
+    [SerializeField] private int _life = 0;
     private int _score = 0;
     private float _timePlaying = 0;
     

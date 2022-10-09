@@ -15,7 +15,6 @@ public sealed class MainMenu : ScreenBase
     public override void FinishedAnimation()
     {
         base.FinishedAnimation();
-        Debug.LogError("HERE");
         GameManager.Instance.Initialize();
     }
 

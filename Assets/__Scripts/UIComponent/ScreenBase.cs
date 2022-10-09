@@ -48,6 +48,5 @@ public class ScreenBase : MonoBehaviour
         FinishCallback?.Invoke();
         FinishCallback = null;
         gameObject.SetActive(false);
-        Debug.LogError("CHAMOU");
     }
 }

@@ -46,7 +46,6 @@ public class AsteroidsManager : SingletonMonoBehaviour<AsteroidsManager>
         
         while (!CanRun)
         {
-            Debug.LogError("PRESO " + CanRun.ToString());
 #if  UNITY_EDITOR
             if (!EditorApplication.isPlaying) return;
 #endif

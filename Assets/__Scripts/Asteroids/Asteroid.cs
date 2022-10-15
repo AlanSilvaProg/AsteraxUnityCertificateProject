@@ -11,7 +11,7 @@ public class Asteroid : MonoBehaviour
     private bool _singleAstreroid;
 
     public event Action<Vector3> Destroyed;
-    
+
     private void OnEnable()
     {
         StartWork();
@@ -51,22 +51,28 @@ public class Asteroid : MonoBehaviour
             void SetupingPosition(Transform transformSetuped)
             {
                 var newPosition = Vector3.zero;
-                newPosition.x += Random.Range(-1 * transformSetuped.localScale.x / 2, transformSetuped.localScale.x / 2);
-                newPosition.x += Random.Range(-1 * transformSetuped.localScale.x / 2, transformSetuped.localScale.x / 2);
-                newPosition.y += Random.Range(-1 * transformSetuped.localScale.y / 2, transformSetuped.localScale.y / 2);
-                newPosition.y += Random.Range(-1 * transformSetuped.localScale.y / 2, transformSetuped.localScale.y / 2);
+                newPosition.x += Random.Range(-1 * transformSetuped.localScale.x / 2,
+                    transformSetuped.localScale.x / 2);
+                newPosition.x += Random.Range(-1 * transformSetuped.localScale.x / 2,
+                    transformSetuped.localScale.x / 2);
+                newPosition.y += Random.Range(-1 * transformSetuped.localScale.y / 2,
+                    transformSetuped.localScale.y / 2);
+                newPosition.y += Random.Range(-1 * transformSetuped.localScale.y / 2,
+                    transformSetuped.localScale.y / 2);
                 transformSetuped.localPosition = newPosition;
             }
-            
+
             transform.position = new Vector3(Random.Range(0, 2) == 0 ? 5000 : -5000,
                 Random.Range(0, 2) == 0 ? 5000 : -5000, 0);
         }
+
         return gameObject;
     }
-    
+
     private void DestroyAsteroid(bool ignoreScore = false)
     {
-        var vfx = GameManager.Instance.explosionVfxPoolSystem.GetObjectFromPool() ?? AsteroidsManager.Instance.Configure.GetRandomExplosionVfx();
+        var vfx = GameManager.Instance.explosionVfxPoolSystem.GetObjectFromPool() ??
+                  AsteroidsManager.Instance.Configure.GetRandomExplosionVfx();
         vfx.gameObject.transform.position = transform.position;
         vfx.gameObject.SetActive(true);
         if (_singleAstreroid)
@@ -74,6 +80,8 @@ public class Asteroid : MonoBehaviour
             GameManager.Instance.singleAsteroidPoolSystem.PutObjectIntoPool(gameObject);
             if (!ignoreScore)
                 GameManager.Instance.Score += AsteroidsManager.Instance.Configure.singleAsteroidPoint;
+
+            PlayerProgressRegistry.singleAsteroidsDestroyed++;
         }
         else
         {
@@ -81,6 +89,8 @@ public class Asteroid : MonoBehaviour
             GameManager.Instance.asteroidCompositionPoolSystem.PutObjectIntoPool(gameObject);
             if (!ignoreScore)
                 GameManager.Instance.Score += AsteroidsManager.Instance.Configure.compositionAsteroidPoint;
+
+            PlayerProgressRegistry.compositionAsteroidsDestroyed++;
         }
     }
 
@@ -94,25 +104,30 @@ public class Asteroid : MonoBehaviour
         velocity.x = Random.Range(-1 * maxVelocity, maxVelocity);
         velocity.y = Random.Range(-1 * maxVelocity, maxVelocity);
         myRigidBody.velocity = velocity;
-        
-        myRigidBody.AddTorque(Random.Range(-1 * maxVelocity, maxVelocity),Random.Range(-1 * maxVelocity, maxVelocity),Random.Range(-1 * maxVelocity, maxVelocity));
+
+        myRigidBody.AddTorque(Random.Range(-1 * maxVelocity, maxVelocity), Random.Range(-1 * maxVelocity, maxVelocity),
+            Random.Range(-1 * maxVelocity, maxVelocity));
     }
 
     private void StopWork()
     {
         myRigidBody.velocity = Vector3.zero;
     }
-    
+
     private void OnCollisionEnter(Collision collision)
     {
         if (!isActiveAndEnabled) return;
-        
+
         GameObject obj = collision.gameObject;
         if (obj.TryGetComponent(out PlayerGeneral player))
         {
             var playerPos = player.transform.position;
             player.CauseDamage();
             player.PlayerRb.AddForceAtPosition(transform.position - playerPos * 100, playerPos);
+            if (_singleAstreroid)
+                PlayerProgressRegistry.shipHitSingleAsteroids++;
+            else
+                PlayerProgressRegistry.shipHitCompositionAsteroids++;
             DestroyAsteroid(true);
         }
         else

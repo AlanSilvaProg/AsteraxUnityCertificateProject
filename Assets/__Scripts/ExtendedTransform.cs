@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace ExtendedClasse
         /// Check if the current transform is out of screen and if yes wrap the transform back to the screen in the opposite side
         /// </summary>
         /// <param name="transform"></param>
-        public static void CheckLimits(this Transform transform)
+        public static void CheckLimits(this Transform transform, Action callbackWrapped = null)
         {
             CheckHorizontal();
             CheckVertical();
@@ -26,6 +27,8 @@ namespace ExtendedClasse
                     var newPosition = Camera.main.WorldToScreenPoint(transform.position);
                     newPosition.y = 0;
                     worldPosition = Camera.main.ScreenToWorldPoint(newPosition);
+                    callbackWrapped?.Invoke();
+                    callbackWrapped = null;
                 }
                 else
                 {
@@ -37,6 +40,8 @@ namespace ExtendedClasse
                         var newPosition = Camera.main.WorldToScreenPoint(worldPosition);
                         newPosition.y = Screen.height;
                         worldPosition = Camera.main.ScreenToWorldPoint(newPosition);
+                        callbackWrapped?.Invoke();
+                        callbackWrapped = null;
                     }
                     else
                     {
@@ -58,6 +63,8 @@ namespace ExtendedClasse
                     var newPosition = Camera.main.WorldToScreenPoint(transform.position);
                     newPosition.x = 0;
                     worldPosition = Camera.main.ScreenToWorldPoint(newPosition);
+                    callbackWrapped?.Invoke();
+                    callbackWrapped = null;
                 }
                 else
                 {
@@ -69,6 +76,8 @@ namespace ExtendedClasse
                         var newPosition = Camera.main.WorldToScreenPoint(worldPosition);
                         newPosition.x = Screen.width;
                         worldPosition = Camera.main.ScreenToWorldPoint(newPosition);
+                        callbackWrapped?.Invoke();
+                        callbackWrapped = null;
                     }
                     else
                     {

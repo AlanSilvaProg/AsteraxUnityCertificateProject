@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(ScreenSaver))]
@@ -11,7 +12,21 @@ public class Bullet : MonoBehaviour
     [Header("Trail")]
     [SerializeField] private GameObject bulletTrail;
     private float timeAlive = 0;
-    
+
+    private ScreenSaver _screenSaver;
+    private bool _wrapped = false;
+
+    private void Awake()
+    {
+        if (!_screenSaver)
+            _screenSaver = GetComponent<ScreenSaver>();
+        _screenSaver.Wrapped += () =>
+        {
+            PlayerProgressRegistry.bulletWraps++;
+            _wrapped = true;
+        };
+    }
+
     private void OnEnable()
     {
         timeAlive = 0;
@@ -40,9 +55,11 @@ public class Bullet : MonoBehaviour
 
     private void DispareBullet()
     {
+        _wrapped = false;
         bulletTrail.transform.SetParent(null);
         bulletTrail.SetActive(true);
         bulletRb.AddForce(transform.up * bulletVelocity, ForceMode.Impulse);
+        PlayerProgressRegistry.bulletsFired++;
     }
 
     private void DestroyBullet()
@@ -56,6 +73,8 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         var obj = collision.gameObject;
+        if (_wrapped)
+            PlayerProgressRegistry.bulletWrapsWithHit++;
         DestroyBullet();
     }
 }

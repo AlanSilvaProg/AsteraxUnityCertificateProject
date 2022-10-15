@@ -7,6 +7,8 @@ using UnityEngine;
 public class ScreenSaver : MonoBehaviour
 {
     [SerializeField] protected Rigidbody myRigidbody;
+
+    public event Action Wrapped;
     
     private void OnValidate()
     {
@@ -26,7 +28,7 @@ public class ScreenSaver : MonoBehaviour
         CheckReferences();
         if (myRigidbody.velocity != Vector3.zero)
         {
-            transform.CheckLimits();
+            transform.CheckLimits(Wrapped);
         }
     }
 }

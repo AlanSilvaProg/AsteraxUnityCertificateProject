@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 #if  UNITY_EDITOR
@@ -19,6 +20,9 @@ public class PlayerGeneral : MonoBehaviour
     public Rigidbody PlayerRb => playerRb;
     public bool FreeToDoAction => GameManager.Instance.LifeRemaining > 0 && GameManager.Instance.GameState == GameStates.RUNNING;
 
+    private ScreenSaver _screenSaver;
+    
+#if UNITY_EDITOR
     private void OnValidate()
     {
         if (playerRb == null)
@@ -26,12 +30,24 @@ public class PlayerGeneral : MonoBehaviour
         if (playerCol == null)
             playerCol = GetComponent<Collider>();
     }
+#endif
+
+    private void Awake()
+    {
+        if (!_screenSaver)
+            _screenSaver = GetComponent<ScreenSaver>();
+        _screenSaver.Wrapped += () =>
+        {
+            PlayerProgressRegistry.shipWraps++;
+        };
+    }
 
     public async void CauseDamage()
     {
         if (!playerCol.enabled) return;
         GameManager.Instance.LifeRemaining--;
         SpawnHitVfx();
+        PlayerProgressRegistry.lifesLosted++;
         if (FreeToDoAction)
         {
             await SafeDuringTime();

@@ -5,7 +5,10 @@ public static class PlayerProgressRegistry
     private static int _compositionAsteroidsDestroyed;
     private static int _singleAsteroidsDestroyed;
     private static int _lifesLosted;
+    private static int _currentScore;
     private static int _shipWraps;
+    private static int _shipHitCompositionAsteoids;
+    private static int _shipHitSimpleAsteoids;
     private static int _bulletWraps;
     private static int _bulletWrapsWithHit;
     
@@ -34,10 +37,25 @@ public static class PlayerProgressRegistry
         get { return _lifesLosted;}
         set { _lifesLosted = value; AchievementChecker.Instance.CheckForAchievementsUnlocked();}
     }
+    public static int currentScore
+    {
+        get { return _currentScore;}
+        set { _currentScore = value; AchievementChecker.Instance.CheckForAchievementsUnlocked();}
+    }
     public static int shipWraps
     {
         get { return _shipWraps;}
         set { _shipWraps = value; AchievementChecker.Instance.CheckForAchievementsUnlocked();}
+    }
+    public static int shipHitCompositionAsteroids
+    {
+        get { return _shipHitCompositionAsteoids;}
+        set { _shipHitCompositionAsteoids = value; AchievementChecker.Instance.CheckForAchievementsUnlocked();}
+    }
+    public static int shipHitSingleAsteroids
+    {
+        get { return _shipHitSimpleAsteoids;}
+        set { _shipHitSimpleAsteoids = value; AchievementChecker.Instance.CheckForAchievementsUnlocked();}
     }
     public static int bulletWraps
     {

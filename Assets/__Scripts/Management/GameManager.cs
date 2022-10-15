@@ -2,6 +2,7 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public enum GameStates
 {
@@ -35,8 +36,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
     [Header("Game Initial Stats")] 
     [SerializeField] private int initialLife = 3;
-    
+
     [Header("HUD Reference's")] 
+    [SerializeField] private Canvas popupCanvas;
     [SerializeField] private TextMeshProUGUI scoreTMP;
     [SerializeField] private TextMeshProUGUI lifeTMP;
     [SerializeField] private TextMeshProUGUI timePlayingTMP;
@@ -46,9 +48,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     [SerializeField] private ScreenBase pauseScreen;
     [SerializeField] private ScreenBase levelPassedScreen;
     [SerializeField] private ScreenBase gameOverScreen;
-    
 
-    [SerializeField] private int _life = 0;
+
+    private int _life = 0;
     private int _score = 0;
     private float _timePlaying = 0;
     
@@ -58,11 +60,16 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
 
     public static CancellationToken InGameCancellationToken => _cancelationToken;
+    public Canvas PopupCanvas => popupCanvas;
 
     public int CurrentStage
     {
         get { return currentStage; }
-        set { currentStage = value; }
+        set 
+        { 
+            currentStage = value;
+            PlayerProgressRegistry.currentLevel = currentStage;
+        }
     }
 
     public GameSettings GameSettings => gameSettings;
@@ -85,6 +92,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         set
         {
             _score = value;
+            PlayerProgressRegistry.currentScore = _score;
             scoreTMP.text = $"Score: {_score}";
             if(_score >= currentStage * 100)
                 NextLevelCall();

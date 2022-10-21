@@ -117,6 +117,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public void Initialize()
     {
         gameState = GameStates.RUNNING;
+        PlayerProgressRegistry.ResetProgress();
         gameScreen.ShowScreen();
         Time.timeScale = 1;
     }
@@ -156,6 +157,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private void NextLevelCall()
     {
         gameState = GameStates.PAUSED;
+        SaveGameManager.SaveGame();
         levelPassedScreen.ShowScreen();
     }
     
@@ -171,6 +173,16 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     
     private void ResetStats()
     {
+        if (!SaveGameManager.LoadSaveGame())
+            SaveGameManager.informationsToSave.achievements = gameSettings.Achievements;
+        else
+        {
+            for (int i = 0; i < gameSettings.Achievements.Length; i++)
+            {
+                gameSettings.Achievements[i] = SaveGameManager.informationsToSave.achievements[i];
+            }
+        }
+
         LifeRemaining = initialLife;
         Score = 0;
         TimePlaying = 0;

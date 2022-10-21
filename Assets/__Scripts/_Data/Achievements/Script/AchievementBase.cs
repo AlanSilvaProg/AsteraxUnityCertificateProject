@@ -6,6 +6,7 @@ public abstract class AchievementBase : ScriptableObject
 {
     public string name;
     public string description;
+    public int forceDisplayId;
     
     [HideInInspector] public bool completed = false;
 

@@ -33,6 +33,17 @@ public class AchievementChecker : SingletonMonoBehaviour<AchievementChecker>
 
     private AchievementBase GetNextUnlockedScheduled() => unlockedScheduled.Count > 0 ? unlockedScheduled.Dequeue() : null;
 
+    public void ForceDisplay(int achievementID)
+    {
+        foreach (var achievement in GameManager.Instance.GameSettings.Achievements)
+        {
+            if (achievement.forceDisplayId == achievementID)
+            {
+                ScheduleUnlockPopup(achievement);
+            }
+        }
+    }
+    
     public void CheckForAchievementsUnlocked()
     {
         foreach (var achievement in GameManager.Instance.GameSettings.Achievements)

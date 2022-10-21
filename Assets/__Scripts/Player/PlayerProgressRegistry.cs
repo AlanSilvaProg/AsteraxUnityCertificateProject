@@ -11,6 +11,8 @@ public static class PlayerProgressRegistry
     private static int _shipHitSimpleAsteoids;
     private static int _bulletWraps;
     private static int _bulletWrapsWithHit;
+
+    public static bool reachedNewHighScore = false;
     
     public static int bulletsFired
     {
@@ -20,7 +22,15 @@ public static class PlayerProgressRegistry
     public static int currentLevel
     {
         get { return _currentLevel;}
-        set { _currentLevel = value; AchievementChecker.Instance.CheckForAchievementsUnlocked();}
+        set
+        {
+            _currentLevel = value; AchievementChecker.Instance.CheckForAchievementsUnlocked();
+            if (SaveGameManager.informationsToSave.maxLevelReached < _currentLevel)
+            {
+                SaveGameManager.informationsToSave.maxLevelReached = currentLevel;
+                SaveGameManager.SaveGame();
+            }
+        }
     }
     public static int compositionAsteroidsDestroyed
     {
@@ -40,7 +50,19 @@ public static class PlayerProgressRegistry
     public static int currentScore
     {
         get { return _currentScore;}
-        set { _currentScore = value; AchievementChecker.Instance.CheckForAchievementsUnlocked();}
+        set {
+            _currentScore = value; AchievementChecker.Instance.CheckForAchievementsUnlocked();
+            if (SaveGameManager.informationsToSave.highScore < _currentScore)
+            {
+                SaveGameManager.informationsToSave.highScore = _currentScore;
+                if (!reachedNewHighScore)
+                {
+                    if (value - 1 > 0)
+                        AchievementChecker.Instance.ForceDisplay(1); // 1 == high score achievement configured on achievements folder
+                    reachedNewHighScore = true;
+                }
+                SaveGameManager.SaveGame();
+            }}
     }
     public static int shipWraps
     {
@@ -66,5 +88,22 @@ public static class PlayerProgressRegistry
     {
         get { return _bulletWrapsWithHit;}
         set { _bulletWrapsWithHit = value; AchievementChecker.Instance.CheckForAchievementsUnlocked();}
+    }
+
+    public static void ResetProgress()
+    {
+        _bulletsFired = 0;
+        _currentLevel = 0;
+        _compositionAsteroidsDestroyed = 0;
+        _singleAsteroidsDestroyed = 0;
+        _lifesLosted = 0;
+        _currentScore = 0;
+        _shipWraps = 0;
+        _shipHitCompositionAsteoids = 0;
+        _shipHitSimpleAsteoids = 0;
+        _bulletWraps = 0;
+        _bulletWrapsWithHit = 0;
+
+        reachedNewHighScore = false;
     }
 }

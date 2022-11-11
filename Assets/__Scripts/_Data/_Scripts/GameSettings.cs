@@ -11,6 +11,11 @@ public class GameSettings : ScriptableObject
     [Tooltip("All achievements to player unlock during gameplay")]
     [SerializeField] private AchievementBase[] _achievements;
 
+    [Tooltip("The Customization information to get all data about the parts that you can equip on your ship")]
+    [SerializeField] private CustomizationParts _customizationParts;
+
     public int MaxLevelMultiplier => maxLevelMultiplier;
     public AchievementBase[] Achievements => _achievements;
+    public CustomizationParts CustomizationParts => _customizationParts;
+
 }

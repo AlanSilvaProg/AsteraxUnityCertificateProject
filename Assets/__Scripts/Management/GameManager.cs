@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using TMPro;
 using UnityEngine;
@@ -48,6 +49,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     [SerializeField] private ScreenBase pauseScreen;
     [SerializeField] private ScreenBase levelPassedScreen;
     [SerializeField] private ScreenBase gameOverScreen;
+    [SerializeField] private ScreenBase customizationScreen;
 
 
     private int _life = 0;
@@ -57,7 +59,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     //In Game Token, Cancel when game is not running
     private static CancellationToken _cancelationToken;
     private static CancellationTokenSource source;
-
+    
+    //Customization Event
+    public event Action OnExitCustomizationScreen;
 
     public static CancellationToken InGameCancellationToken => _cancelationToken;
     public Canvas PopupCanvas => popupCanvas;
@@ -145,13 +149,18 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         gameOverScreen.ShowScreen();
     }
 
+    public void CallCustomizationScreen()
+    {
+        PauseAct();
+        customizationScreen.ShowScreen();
+    }
+
     public void Pause()
     {
         if (gameState == GameStates.PAUSED) return;
-        gameState = GameStates.PAUSED;
+        PauseAct();
         gameScreen.CloseScreen(null);
         pauseScreen.ShowScreen();
-        Time.timeScale = 0;
     }
 
     private void NextLevelCall()
@@ -160,10 +169,16 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         SaveGameManager.SaveGame();
         levelPassedScreen.ShowScreen();
     }
+
+    private void PauseAct()
+    {
+        gameState = GameStates.PAUSED;
+        Time.timeScale = 0;
+    }
     
     public void Unpause()
     {
-        pauseScreen.CloseScreen(Initialize);
+        Initialize();
     }
 
     public void RestartGame()

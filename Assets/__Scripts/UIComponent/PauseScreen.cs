@@ -8,7 +8,7 @@ public class PauseScreen : ScreenBase
     protected override void Awake()
     {
         base.Awake();
-        closeButton.onClick.AddListener(Close);
+        closeButton.onClick.AddListener(CloseScreen);
     }
 
     public override void ShowScreen()
@@ -17,9 +17,9 @@ public class PauseScreen : ScreenBase
         closeButton.interactable = true;
     }
 
-    private void Close()
+    protected override void CloseScreen()
     {
+        CloseScreen(GameManager.Instance.Unpause);
         closeButton.interactable = false;
-        GameManager.Instance.Unpause();
     }
 }

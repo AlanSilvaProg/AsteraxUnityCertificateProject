@@ -1927,6 +1927,7 @@ MonoBehaviour:
   pauseScreen: {fileID: 828448417}
   levelPassedScreen: {fileID: 435371657}
   gameOverScreen: {fileID: 1853820478}
+  customizationScreen: {fileID: 0}
 --- !u!4 &876664269
 Transform:
   m_ObjectHideFlags: 0

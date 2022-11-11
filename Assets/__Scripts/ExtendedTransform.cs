@@ -95,5 +95,24 @@ namespace ExtendedClasse
             var screenFixed = Camera.main.WorldToScreenPoint(worldPosition);
             return screenFixed.x < 0 || screenFixed.x > Screen.width || screenFixed.y > Screen.height || screenFixed.y < 0;
         }
+
+        public static List<T> GetRecursiveChilds<T>(this Transform transform)
+        {
+            List<T> recursiveChilds = new List<T>();
+            Transform current;
+            
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                current = transform.GetChild(i);
+                
+                if(current.TryGetComponent(out T comp))
+                    recursiveChilds.Add(comp);
+                
+                if (current.childCount > 0)
+                    recursiveChilds.AddRange(current.GetRecursiveChilds<T>());
+            }
+
+            return recursiveChilds;
+        }
     }
 }

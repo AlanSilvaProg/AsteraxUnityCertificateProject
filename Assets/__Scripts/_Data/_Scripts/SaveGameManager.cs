@@ -9,12 +9,14 @@ public class InformationsToSave
     public AchievementBase[] achievements; // achievements information
     public int highScore = 0;
     public int maxLevelReached = 0;
+    public int currentBodyIndex = 0; // 0 == default body
+    public int currentTurretIndex = 0; // 0 == default turret
 }
 
 public static class SaveGameManager
 {
     private static string path = $"{Application.persistentDataPath}/AsteraxSave.save";
-    public static InformationsToSave informationsToSave;
+    public static InformationsToSave informationsToSave = new InformationsToSave();
     
     public static void SaveGame()
     {

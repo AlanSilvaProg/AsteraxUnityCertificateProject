@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using ExtendedClasse;
 using UnityEngine;
 #if  UNITY_EDITOR
 using UnityEditor;
@@ -10,7 +11,7 @@ public class PlayerGeneral : MonoBehaviour
 {
     [SerializeField] private Rigidbody playerRb;
     [SerializeField] private Collider playerCol;
-    [SerializeField] private GameObject[] spaceshipParts;
+    [SerializeField] private MeshRenderer[] spaceshipParts;
 
     [Header("After damage")]
     [Tooltip("After hitted by asteroid, player will be invulnerable during this time in milliseconds")]
@@ -40,6 +41,12 @@ public class PlayerGeneral : MonoBehaviour
         {
             PlayerProgressRegistry.shipWraps++;
         };
+        GetSpaceShipReferences();
+    }
+
+    private void GetSpaceShipReferences()
+    {
+        spaceshipParts = transform.GetRecursiveChilds<MeshRenderer>().ToArray();
     }
 
     public async void CauseDamage()
@@ -79,14 +86,14 @@ public class PlayerGeneral : MonoBehaviour
             if (GameManager.InGameCancellationToken.IsCancellationRequested) break;
             foreach (var part in spaceshipParts)
             {
-                part.SetActive(!part.activeSelf);
+                part.enabled = part.enabled;
             }
             count += 250;
         } while (count < millisecondsInvisible);
 
         foreach (var part in spaceshipParts)
         {
-            part.SetActive(true);
+            part.enabled = true;
             SpawnHitVfx();
         }
 

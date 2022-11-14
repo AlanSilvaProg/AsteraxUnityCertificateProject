@@ -12,3 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c617e76c3b4f1483186a1587beb196fd, type: 3}
   m_Name: CustomizationParts
   m_EditorClassIdentifier: 
+  bodyUnlockConditions:
+  - partType: 0
+    part: {fileID: 3044712190710811362, guid: 76a9c2f0606614d0e8edd07555669533, type: 3}
+    achievementNeeded: {fileID: 0}
+  - partType: 0
+    part: {fileID: 4077916937728375441, guid: 1022c3f5610b14ec4abca84df35373bc, type: 3}
+    achievementNeeded: {fileID: 11400000, guid: 0a15bb275885c4f08aaa6f13b105e896,
+      type: 2}
+  - partType: 0
+    part: {fileID: 5472460387074757878, guid: 4964a2f35b9fe4424bdb654354a366c4, type: 3}
+    achievementNeeded: {fileID: 11400000, guid: 40be30fa099004fb89da74a1001c25da,
+      type: 2}
+  - partType: 0
+    part: {fileID: 9161368758967210801, guid: 64f992b935aed44d698a2be0b52501c8, type: 3}
+    achievementNeeded: {fileID: 11400000, guid: 0a15bb275885c4f08aaa6f13b105e896,
+      type: 2}
+  turretUnlockConditions:
+  - partType: 1
+    part: {fileID: 4047703621163318425, guid: b2a75e7e4ef98473b863fb6086d87313, type: 3}
+    achievementNeeded: {fileID: 0}
+  - partType: 1
+    part: {fileID: 6792335770877170981, guid: 09245b0d546c7412c9a0660b92c927ce, type: 3}
+    achievementNeeded: {fileID: 11400000, guid: 0a15bb275885c4f08aaa6f13b105e896,
+      type: 2}
+  - partType: 1
+    part: {fileID: 6694228955773279517, guid: 3306f7a55cbfc4f56a7e02abffe9b858, type: 3}
+    achievementNeeded: {fileID: 11400000, guid: 40be30fa099004fb89da74a1001c25da,
+      type: 2}
+  - partType: 1
+    part: {fileID: 5131440754531936500, guid: d329ddf65fcdf4e44ae0d4bdaacb7924, type: 3}
+    achievementNeeded: {fileID: 11400000, guid: 0a15bb275885c4f08aaa6f13b105e896,
+      type: 2}

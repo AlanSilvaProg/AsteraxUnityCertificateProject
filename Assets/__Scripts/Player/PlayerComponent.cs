@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerComponent : MonoBehaviour
@@ -5,6 +6,12 @@ public class PlayerComponent : MonoBehaviour
     [SerializeField] protected PlayerGeneral playerGeneral;
 
     protected virtual void OnValidate()
+    {
+        if (playerGeneral == null)
+            playerGeneral = FindObjectOfType<PlayerGeneral>();
+    }
+
+    protected virtual void Awake()
     {
         if (playerGeneral == null)
             playerGeneral = FindObjectOfType<PlayerGeneral>();

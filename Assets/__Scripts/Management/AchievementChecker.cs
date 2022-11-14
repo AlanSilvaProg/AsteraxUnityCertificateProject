@@ -11,7 +11,7 @@ public class AchievementChecker : SingletonMonoBehaviour<AchievementChecker>
     private void Awake()
     {
         //TODO Remove this temporary force reset
-        ResetAllAchievements();
+        //ResetAllAchievements();
     }
     
     private IEnumerator WaitForPopup()

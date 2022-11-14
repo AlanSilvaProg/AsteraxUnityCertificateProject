@@ -6,7 +6,6 @@ using System.Text;
 
 public class InformationsToSave
 {
-    public AchievementBase[] achievements; // achievements information
     public int highScore = 0;
     public int maxLevelReached = 0;
     public int currentBodyIndex = 0; // 0 == default body
@@ -28,8 +27,7 @@ public static class SaveGameManager
     public static bool LoadSaveGame()
     {
         informationsToSave = HasSaveData() ? JsonUtility.FromJson<InformationsToSave>(File.ReadAllText(path)) : new InformationsToSave();
-        Debug.Log("Data Loaded from: " + path);
-        return File.Exists(path);
+        return HasSaveData();
     }
 
     public static bool HasSaveData() => File.Exists(path);
@@ -44,7 +42,6 @@ public static class SaveGameManager
             {
                 achievement.completed = false;
             }
-            Debug.Log("SAVE DELETED: " + path);
         }
     }
 }

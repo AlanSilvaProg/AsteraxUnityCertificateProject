@@ -22,6 +22,8 @@ public class PlayerGeneral : MonoBehaviour
     public bool FreeToDoAction => GameManager.Instance.LifeRemaining > 0 && GameManager.Instance.GameState == GameStates.RUNNING;
 
     private ScreenSaver _screenSaver;
+
+    [HideInInspector] public SkinUpdater skinUpdater;
     
 #if UNITY_EDITOR
     private void OnValidate()
@@ -41,12 +43,21 @@ public class PlayerGeneral : MonoBehaviour
         {
             PlayerProgressRegistry.shipWraps++;
         };
-        GetSpaceShipReferences();
+        GameManager.Instance.ExitCustomizationMode += GetSpaceShipReferences;
+        GameManager.Instance.OnPlayGame += GetSpaceShipReferences;
     }
 
-    private void GetSpaceShipReferences()
+    private void OnDestroy()
     {
-        spaceshipParts = transform.GetRecursiveChilds<MeshRenderer>().ToArray();
+        
+        GameManager.Instance.ExitCustomizationMode -= GetSpaceShipReferences;
+        GameManager.Instance.OnPlayGame -= GetSpaceShipReferences;
+    }
+
+    public void GetSpaceShipReferences()
+    {
+        if (spaceshipParts == null || spaceshipParts.Length < 1 || spaceshipParts[0] == null)
+            spaceshipParts = transform.GetRecursiveChilds<MeshRenderer>().ToArray();
     }
 
     public async void CauseDamage()
@@ -86,7 +97,7 @@ public class PlayerGeneral : MonoBehaviour
             if (GameManager.InGameCancellationToken.IsCancellationRequested) break;
             foreach (var part in spaceshipParts)
             {
-                part.enabled = part.enabled;
+                part.enabled = !part.enabled;
             }
             count += 250;
         } while (count < millisecondsInvisible);

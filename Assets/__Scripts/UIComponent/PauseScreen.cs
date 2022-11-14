@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,5 +22,12 @@ public class PauseScreen : ScreenBase
     {
         CloseScreen(GameManager.Instance.Unpause);
         closeButton.interactable = false;
+    }
+
+    public override void CloseScreen(Action callback)
+    {
+        base.CloseScreen();
+        if (callback != null)
+            FinishCallback += callback;
     }
 }

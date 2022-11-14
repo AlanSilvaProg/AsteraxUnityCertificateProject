@@ -2,5 +2,6 @@ using UnityEngine;
 
 public class CustomizationParts : ScriptableObject
 {
-    public PartUnlockCondition[] partUnlockConditions;
+    public PartUnlockCondition[] bodyUnlockConditions;
+    public PartUnlockCondition[] turretUnlockConditions;
 }

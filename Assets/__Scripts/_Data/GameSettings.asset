@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLevelMultiplier: 10
   _achievements:
-  - {fileID: 11400000, guid: c54a33352776c46f0944ce9a290aecf3, type: 2}
-  - {fileID: 11400000, guid: c73ee9f4d17514fc5b41c033ebd530e9, type: 2}
-  - {fileID: 11400000, guid: 9bdbda8118ec64ca98ce4e050f0f5813, type: 2}
-  - {fileID: 11400000, guid: 481f519ce3a554b7ab533f071e6f3244, type: 2}
-  - {fileID: 11400000, guid: cedd93ab1b85a4a5aa1802947dd5a64f, type: 2}
-  - {fileID: 11400000, guid: 3f328dedb1c054d39a99c311665ca2f9, type: 2}
-  - {fileID: 11400000, guid: 1ef18a82d7f9c43f2836500677e380cf, type: 2}
-  _customizationParts: {fileID: 0}
+  - {fileID: 11400000, guid: 0a15bb275885c4f08aaa6f13b105e896, type: 2}
+  - {fileID: 11400000, guid: 40be30fa099004fb89da74a1001c25da, type: 2}
+  - {fileID: 11400000, guid: 140241c68fc944219a52c604452bf040, type: 2}
+  - {fileID: 11400000, guid: 128d545dfc1ff4a0ca597f49b96a9399, type: 2}
+  - {fileID: 11400000, guid: 4575e0e6bcb6a475b85abb854474f7af, type: 2}
+  - {fileID: 11400000, guid: 26a4d22b5875b4e05a899182db67ab14, type: 2}
+  - {fileID: 11400000, guid: b2ee02b1ae6c44699bde7627257b9b15, type: 2}
+  _customizationParts: {fileID: 11400000, guid: bf0682188bc684633b6e064de781cf6b,
+    type: 2}

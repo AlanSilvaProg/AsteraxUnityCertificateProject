@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using TMPro;
 using UnityEngine;
@@ -45,12 +46,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     [SerializeField] private TextMeshProUGUI timePlayingTMP;
 
     [Header("Screen Reference's")] 
+    [SerializeField] private ScreenBase mainMenuScreen;
     [SerializeField] private ScreenBase gameScreen;
     [SerializeField] private ScreenBase pauseScreen;
     [SerializeField] private ScreenBase levelPassedScreen;
     [SerializeField] private ScreenBase gameOverScreen;
     [SerializeField] private ScreenBase customizationScreen;
-
 
     private int _life = 0;
     private int _score = 0;
@@ -59,10 +60,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     //In Game Token, Cancel when game is not running
     private static CancellationToken _cancelationToken;
     private static CancellationTokenSource source;
-    
-    //Customization Event
-    public event Action OnExitCustomizationScreen;
 
+    public event Action EnterOnCustomizationMode;
+    public event Action ExitCustomizationMode;
+    public event Action OnPlayGame;
+    
     public static CancellationToken InGameCancellationToken => _cancelationToken;
     public Canvas PopupCanvas => popupCanvas;
 
@@ -121,13 +123,18 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public void Initialize()
     {
         gameState = GameStates.RUNNING;
+        LifeRemaining = initialLife;
+        Score = 0;
+        CurrentStage = 1;
+        OnPlayGame?.Invoke();
         PlayerProgressRegistry.ResetProgress();
         gameScreen.ShowScreen();
         Time.timeScale = 1;
     }
-    
-    private void Awake()
+
+    protected override void Awake()
     {
+        base.Awake();
         ResetStats();
     }
 
@@ -149,11 +156,22 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         gameOverScreen.ShowScreen();
     }
 
+    private void CallMainMenu()
+    {
+        gameState = GameStates.PAUSED;
+        if(gameScreen.opened) gameScreen.CloseScreen(null);
+        if(levelPassedScreen.opened) levelPassedScreen.CloseScreen(null);
+        if (gameOverScreen.opened) gameOverScreen.CloseScreen(null);
+        mainMenuScreen.ShowScreen();
+    }
+
     public void CallCustomizationScreen()
     {
-        PauseAct();
+        EnterOnCustomizationMode?.Invoke();
         customizationScreen.ShowScreen();
     }
+    
+    public void CustomizationScreenClosed() => ExitCustomizationMode?.Invoke();
 
     public void Pause()
     {
@@ -184,20 +202,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        CallMainMenu();
     }
     
     private void ResetStats()
     {
-        if (!SaveGameManager.LoadSaveGame())
-            SaveGameManager.informationsToSave.achievements = gameSettings.Achievements;
-        else
-        {
-            for (int i = 0; i < gameSettings.Achievements.Length; i++)
-            {
-                gameSettings.Achievements[i] = SaveGameManager.informationsToSave.achievements[i];
-            }
-        }
-
         LifeRemaining = initialLife;
         Score = 0;
         TimePlaying = 0;

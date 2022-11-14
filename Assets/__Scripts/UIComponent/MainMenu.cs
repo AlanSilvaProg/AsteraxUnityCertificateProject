@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public sealed class MainMenu : ScreenBase
 {
     [SerializeField] private Button startButton;
+    [SerializeField] private Button customizationButton;
     [SerializeField] private Button deleteSaveButton;
     
     protected override void Awake()
@@ -11,6 +12,7 @@ public sealed class MainMenu : ScreenBase
         base.Awake();
         startButton.onClick.AddListener(CloseScreen);
         deleteSaveButton.onClick.AddListener(DeleteSave);
+        customizationButton.onClick.AddListener(OpenCustomScreen);
         CheckButtonStates();
         ShowScreen();
     }
@@ -19,6 +21,11 @@ public sealed class MainMenu : ScreenBase
     {
         SaveGameManager.DeleteSave();
         CheckButtonStates();
+    }
+
+    private void OpenCustomScreen()
+    {
+        GameManager.Instance.CallCustomizationScreen();
     }
 
     private void CheckButtonStates()

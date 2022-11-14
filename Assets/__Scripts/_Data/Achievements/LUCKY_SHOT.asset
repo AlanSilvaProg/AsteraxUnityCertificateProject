@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: a867abb197dba43c58f8e31283eeadea, type: 3}
   m_Name: LUCKY_SHOT
-  m_EditorClassIdentifier: Assembly-CSharp::AsteroidAchievement
+  m_EditorClassIdentifier: 
   name: LUCKY SHOT
   description: Bullet Wrapped Screen and Hit an Asteroid
+  forceDisplayId: 0
   completed: 0
   possibilitys:
   - wrapShots: 1

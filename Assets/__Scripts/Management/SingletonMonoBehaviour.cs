@@ -32,12 +32,15 @@ public class SingletonMonoBehaviour<T> : MonoBehaviour where T : SingletonMonoBe
     /// </summary>
     public static T I => Instance;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (_i != null)
         {
-            Destroy(this);
-            throw new WarningException($"Instance of GameManager Allready exists, make sure that has only one on the scene!!");
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(this);
         }
     }
 }

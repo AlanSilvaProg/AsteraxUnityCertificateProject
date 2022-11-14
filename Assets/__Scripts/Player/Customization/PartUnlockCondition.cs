@@ -7,5 +7,5 @@ public class PartUnlockCondition
     public PartType partType;
     public GameObject part;
     [SerializeField] private AchievementBase achievementNeeded;
-    public bool unlocked => achievementNeeded.completed;
+    public bool unlocked => achievementNeeded == null || achievementNeeded.completed;
 }

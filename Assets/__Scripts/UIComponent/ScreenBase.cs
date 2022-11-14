@@ -6,10 +6,12 @@ public class ScreenBase : MonoBehaviour
 {
     [SerializeField] protected Animator screenAnimator;
 
+    public bool opened = false;
+    
     protected int openAnim;
     protected int closeAnim;
 
-    private Action FinishCallback;
+    protected Action FinishCallback;
     
 #if UNITY_EDITOR
     protected virtual void OnValidate()
@@ -29,14 +31,16 @@ public class ScreenBase : MonoBehaviour
     {
         gameObject.SetActive(true);
         screenAnimator.Play(openAnim);
+        opened = true;
     }
 
     protected virtual void CloseScreen()
     {
         screenAnimator.Play(closeAnim);
+        opened = false;
     }
     
-    public void CloseScreen(Action callback)
+    public virtual void CloseScreen(Action callback)
     {
         CloseScreen();
         if (callback != null)

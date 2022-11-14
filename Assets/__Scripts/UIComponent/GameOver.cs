@@ -21,6 +21,7 @@ public class GameOver : ScreenBase
         titleText.text = SaveGameManager.informationsToSave.highScore == PlayerProgressRegistry.currentScore ? "High Score!" : "Game Over";
         scoreText.text = $"Final Score: {PlayerProgressRegistry.currentScore}";
         levelText.text = $"Final Level: {PlayerProgressRegistry.currentLevel}";
+        SaveGameManager.SaveGame();
         Time.timeScale = 0;
     }
 
